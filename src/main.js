@@ -12,6 +12,8 @@ import { authMiddleware } from '@/router/router.middleware'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import authLayout from '@/layouts/authLayout.vue'
 import emptyLayout from '@/layouts/emptyLayout.vue'
+import JobDetail from '@/components/jobs/jobDetail.vue'
+import FullModal from '@/components/modals/FullModal.vue'
 
 const initApp = async () => {
     authMiddleware()
@@ -22,6 +24,8 @@ const initApp = async () => {
     app.use(router)
     app.component('auth-layout', authLayout)
     app.component('empty-layout', emptyLayout)
+    app.component('job-detail', JobDetail)
+    app.component('full-modal', FullModal)
     app.component('vue-date-picker', VueDatePicker)
     app.use(Notifications)
     app.mount('#app')

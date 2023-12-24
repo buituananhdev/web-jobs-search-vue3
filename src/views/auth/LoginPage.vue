@@ -7,7 +7,7 @@
                     src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                     alt="logo"
                 />
-                Flowbite
+                FastCV
             </a>
             <div
                 class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
@@ -77,7 +77,11 @@
                         </button>
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                             Don’t have an account yet?
-                            <router-link to="register" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</router-link>
+                            <router-link
+                                to="/register"
+                                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                >Sign up</router-link
+                            >
                         </p>
                     </form>
                 </div>
@@ -135,7 +139,7 @@ const onLogin = async () => {
             localStorage.setItem('access_token', data.access_token)
             localStorage.setItem('refresh_token', data.refresh_token)
         })
-        await initAuthStore()
+        await auth.initAuthStore()
         router.push({ name: 'users' })
     } catch (error) {
         notification.notify({
