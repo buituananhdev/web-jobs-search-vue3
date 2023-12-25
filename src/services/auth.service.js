@@ -11,6 +11,9 @@ export const refreshAccessToken = async () => {
 export const loginApi = async (data) => {
     return await axiosApiInstance.post('/login', data)
 }
+export const getInfo = async () => {
+    return await axiosApiInstance.get('/getMe')
+}
 export const loginGGApi = async (data) => {
     return await axiosApiInstance.post('/login-gg', data)
 }
