@@ -6,13 +6,13 @@ export const refreshAccessToken = async () => {
     const data = {
         refreshToken: refresh_token,
     }
-    return await axios.post('/auth/refresh-tokens', data)
+    return await axios.post('/refresh-tokens', data)
 }
 export const loginApi = async (data) => {
-    return await axiosApiInstance.post('/auth/login', data)
+    return await axiosApiInstance.post('/login', data)
 }
 export const loginGGApi = async (data) => {
-    return await axiosApiInstance.post('/auth/login-gg', data)
+    return await axiosApiInstance.post('/login-gg', data)
 }
 export const registerApi = async (data) => {
     return await axiosApiInstance.post('/register', data)

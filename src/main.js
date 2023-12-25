@@ -12,7 +12,7 @@ import { authMiddleware } from '@/router/router.middleware'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import authLayout from '@/layouts/authLayout.vue'
 import emptyLayout from '@/layouts/emptyLayout.vue'
-import JobDetail from '@/components/jobs/jobDetail.vue'
+import JobDetail from '@/components/jobs/JobDetail.vue'
 import FullModal from '@/components/modals/FullModal.vue'
 
 const initApp = async () => {
