@@ -4,8 +4,9 @@ const routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: () => import('@/views/Dashboard.vue'),
-        meta: { layout: 'auth', requiresAuth: true },
+        meta: { layout: 'empty' },
+
+        component: () => import('@/views/auth/LoginPage.vue'),
     },
     // Auth router
     {
@@ -19,6 +20,23 @@ const routes = [
         name: 'register',
         meta: { layout: 'empty' },
         component: () => import('@/views/auth/RegisterPage.vue'),
+    },
+    {
+        path: '/jobs',
+        name: 'listjob',
+        meta: { layout: 'empty' },
+        component: () => import('@/views/Jobs/index.vue'),
+    },
+    {
+        path: '/applicants',
+        name: 'listapplicant',
+        meta: { layout: 'empty' },
+        // meta: { layout: 'auth', requiresAuth: true },
+        component: () => import('@/views/applicants/index.vue'),
+    },
+    {
+        path: '/jobs/:id',
+        component: () => import('@/views/Jobs/_id/index.vue'),
     },
 ]
 const router = createRouter({

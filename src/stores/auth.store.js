@@ -10,8 +10,8 @@ export const authStore = defineStore('auth', {
             if (localStorage.getItem('access_token')) {
                 // const { data } = await getInfo()
                 // authStore.user = data; // Assuming 'data' contains user information
-                this.isLoggedIn = true;
-                console.log('initAuthStore', this.$state);
+                this.isLoggedIn = true
+                console.log('initAuthStore', this.$state)
             }
         },
     },
