@@ -59,32 +59,34 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { authStore } from '@/stores/auth.store'
-import { loginApi, loginGGApi } from '@/services/auth.service'
+import { loginApi } from '@/services/auth.service'
 import { useNotification } from '@kyvg/vue3-notification'
 const notification = useNotification()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 const auth = authStore()
-
 const onLogin = async () => {
     try {
         await loginApi({ email: email.value, password: password.value }).then((res) => {
             const data = res.data
             console.log('data', data)
             localStorage.setItem('access_token', data.access_token)
-            localStorage.setItem('refresh_token', data.refresh_token)
+            localStorage.setItem('entity_id', res.data.entity_id)
         })
         await auth.initAuthStore()
-        router.push('/')
+        router.push('/list-jobs')
+        notification.notify({
+            type: 'success',
+            title: 'Đăng nhập thành công!',
+        })
     } catch (error) {
         notification.notify({
             type: 'error',
-            title: 'Đăng nhập thất bại, ',
-            text: 'Vui lòng kiểm tra lại thông tin đăng nhập',
+            title: 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập',
         })
         console.log(error)
     }

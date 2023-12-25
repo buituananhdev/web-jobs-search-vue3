@@ -19,8 +19,6 @@ const initApp = async () => {
     authMiddleware()
     const app = createApp(App)
     app.use(pinia)
-    const auth = authStore()
-    await auth.initAuthStore()
     app.use(router)
     app.component('auth-layout', authLayout)
     app.component('empty-layout', emptyLayout)
