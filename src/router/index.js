@@ -4,8 +4,9 @@ const routes = [
     {
         path: '/',
         name: 'dashboard',
+        meta: { layout: 'empty' },
+
         component: () => import('@/views/auth/LoginPage.vue'),
-        meta: { layout: 'auth', requiresAuth: true },
     },
     // Auth router
     {
