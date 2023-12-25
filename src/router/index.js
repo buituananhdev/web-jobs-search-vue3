@@ -6,7 +6,7 @@ const routes = [
         name: 'dashboard',
         meta: { layout: 'empty' },
 
-        component: () => import('@/views/auth/LoginPage.vue'),
+        component: () => import('@/views/Dashboard.vue'),
     },
     // Auth router
     {
@@ -22,10 +22,24 @@ const routes = [
         component: () => import('@/views/auth/RegisterPage.vue'),
     },
     {
-        path: '/jobs',
+        path: '/list-jobs',
         name: 'listjob',
         meta: { layout: 'empty' },
         component: () => import('@/views/Jobs/index.vue'),
+    },
+    {
+        path: '/jobs',
+        name: 'createjob',
+        // meta: { layout: 'auth', requiresAuth: true },
+        meta: { layout: 'empty' },
+        component: () => import('@/views/Jobs/create/index.vue'),
+    },
+    {
+        path: '/jobs/:id',
+        name: 'updatejob',
+        // meta: { layout: 'auth', requiresAuth: true },
+        meta: { layout: 'empty' },
+        component: () => import('@/views/Jobs/create/index.vue'),
     },
     {
         path: '/applicants',
@@ -35,7 +49,8 @@ const routes = [
         component: () => import('@/views/applicants/index.vue'),
     },
     {
-        path: '/jobs/:id',
+        path: '/jobs/detail/:id',
+        // meta: { layout: 'auth', requiresAuth: true },
         component: () => import('@/views/Jobs/_id/index.vue'),
     },
 ]

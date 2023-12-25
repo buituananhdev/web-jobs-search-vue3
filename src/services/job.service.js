@@ -14,19 +14,19 @@ export const changeBalance = async (jobID, balance) => {
 export const deleteJob = async (id) => {
     return await axiosApiInstance.delete(`/jobs/${id}`)
 }
-export const getAllJobs = async (company_id, key_word, location = 'all', salary = '0') => {
-    let url = `/jobs?key_word=${key_word}&company_id=${company_id}&salary=${salary}&location=${location}`
-    if (key_word) {
-        url += `&key_word =${key_word}`
+export const getAllJobs = async (filter) => {
+    let url = `/jobs?key_word=${filter.key_word}&company_id=${filter.company_id}&salary=${filter.salary}&location=${filter.location}`
+    if (filter.key_word) {
+        url += `&key_word =${filter.key_word}`
     }
-    if (location !== 'all') {
-        url += `&location =${location}`
+    if (filter.location !== 'all') {
+        url += `&location =${filter.location}`
     }
-    if (salary !== '0') {
-        url += `&salary =${salary}`
+    if (filter.salary !== '0') {
+        url += `&salary =${filter.salary}`
     }
-    if (company_id > 0) {
-        url += `company_id=${company_id}`
+    if (filter.company_id > 0) {
+        url += `company_id=${filter.company_id}`
     }
     return await axiosApiInstance.get(url)
 }
