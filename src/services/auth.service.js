@@ -20,3 +20,6 @@ export const loginGGApi = async (data) => {
 export const registerApi = async (data) => {
     return await axiosApiInstance.post('/register', data)
 }
+export const getMeApi = async () => {
+    return await axiosApiInstance.get('/getMe')
+}
