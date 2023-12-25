@@ -4,7 +4,7 @@
         <input type="number" hidden="hidden" value="= job.getJobId()%>" name="jobId" id="jobId" />
         <div class="job-content flex gap-5 mb-2">
             <b>Công ty:</b>
-            <p>{{ job.company }}</p>
+            <p>{{ job.company_name }}</p>
         </div>
         <div class="job-content flex gap-10 py-1 mb-4">
             <div class="job-salary px-3 py-2 flex gap-[16px] items-center">
@@ -26,7 +26,7 @@
                 />
                 <div>
                     <p>Địa điểm:</p>
-                    <p>{{ job.address }}</p>
+                    <p>{{ job.location }}</p>
                 </div>
             </div>
         </div>

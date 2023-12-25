@@ -50,8 +50,8 @@
                         </div>
                         <select v-model="job.location" class="w-full h-full border p-4 rounded-lg">
                             <option value="all">Tất cả</option>
-                            <option v-for="(city, index) in listCity" :key="index" :value="city.name">
-                                {{ city.name }}
+                            <option v-for="(city, index) in listCity" :key="index" :value="city">
+                                {{ city }}
                             </option>
                         </select>
                     </div>
@@ -91,9 +91,9 @@
                     </div>
                     <button
                         class="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm font-bold bg-[#00b14f] leading-6 capitalize duration-100 transform rounded-lg shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10 hover:shadow-lg hover:-translate-y-1 text-white"
-                        @click="createJob"
+                        @click="handleClick"
                     >
-                        Đăng bài tuyển dụng
+                        {{ job_id ? 'Cập nhật bài tuyển dụng' : 'Đăng bài tuyển dụng'}}
                     </button>
                 </div>
             </div>
@@ -102,43 +102,135 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-import { addJob } from '@/services/job.service'
+import { useRoute, useRouter } from 'vue-router'
+import { addJob, getSingleJob, updateJob } from '@/services/job.service'
 import { useNotification } from '@kyvg/vue3-notification'
 
 const notification = useNotification()
 const job = ref({
     location: 'all',
-    company_id: 1,
 })
+const job_id = ref('')
 const router = useRouter()
-const listCity = ref([])
+const listCity = [
+    'Ho Chi Minh',
+    'Hanoi',
+    'Danang',
+    'Haiphong',
+    'An Giang',
+    'Ba Ria - Vung Tau',
+    'Bac Giang',
+    'Bac Kan',
+    'Bac Lieu',
+    'Bac Ninh',
+    'Ben Tre',
+    'Binh Dinh',
+    'Binh Duong',
+    'Binh Phuoc',
+    'Binh Thuan',
+    'Ca Mau',
+    'Can Tho',
+    'Cao Bang',
+    'Dak Lak',
+    'Dak Nong',
+    'Dien Bien',
+    'Dong Nai',
+    'Dong Thap',
+    'Gia Lai',
+    'Ha Giang',
+    'Ha Nam',
+    'Ha Tinh',
+    'Hai Duong',
+    'Hau Giang',
+    'Hoa Binh',
+    'Hung Yen',
+    'Khanh Hoa',
+    'Kien Giang',
+    'Kon Tum',
+    'Lai Chau',
+    'Lam Dong',
+    'Lang Son',
+    'Lao Cai',
+    'Long An',
+    'Nam Dinh',
+    'Nghe An',
+    'Ninh Binh',
+    'Ninh Thuan',
+    'Phu Tho',
+    'Phu Yen',
+    'Quang Binh',
+    'Quang Nam',
+    'Quang Ngai',
+    'Quang Ninh',
+    'Quang Tri',
+    'Soc Trang',
+    'Son La',
+    'Tay Ninh',
+    'Thai Binh',
+    'Thai Nguyen',
+    'Thanh Hoa',
+    'Thua Thien Hue',
+    'Tien Giang',
+    'Tra Vinh',
+    'Tuyen Quang',
+    'Vinh Long',
+    'Vinh Phuc',
+    'Yen Bai',
+]
 const createJob = async () => {
     try {
+        job.value.company_id = parseInt(localStorage.getItem('entity_id'))
         await addJob(job.value)
         router.push('/list-jobs')
         notification.notify({
             type: 'success',
-            title: 'Xóa thành công',
+            title: 'Thêm bài đăng thành công',
         })
+        router.push('/list-jobs')
     } catch (error) {
         console.error(error)
         notification.notify({
             type: 'error',
-            title: 'Xóa thất bại',
+            title: 'Thêm bài đăng thất bại',
         })
     }
 }
-const getListCity = async () => {
+const editJob = async () => {
     try {
-        const response = await axios.get('https://provinces.open-api.vn/api/')
-        listCity.value = response.data
-    } catch (err) {
-        console.error('API Error:', err)
+        delete job.value.job_id
+        await updateJob(job_id.value, job.value)
+        notification.notify({
+            type: 'success',
+            title: 'Cập nhật bài đăng thành công',
+        })
+        router.push('/list-jobs')
+    } catch (error) {
+        console.error(error)
+        notification.notify({
+            type: 'error',
+            title: 'Cập nhật bài đăng thất bại',
+        })
+    }
+}
+const getJob = async () => {
+    try {
+        const res = await getSingleJob(job_id.value)
+        job.value = res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+const handleClick = () => {
+    if (job_id.value) {
+        editJob()
+    } else {
+        createJob()
     }
 }
 onMounted(() => {
-    getListCity()
+    job_id.value = parseInt(useRoute().params.id)
+    if (job_id.value) {
+        getJob()
+    }
 })
 </script>

@@ -3,14 +3,8 @@
         <div class="h-full p-[40px] max-w-[1000px] m-auto mt-40px rounded-2xl h-[100vh] bg-white h-fit">
             <div class="flex items-center justify-between pb-10">
                 <h2 class="title text-2xl w-full text-[#009643] font-bold">Công việc đã ứng tuyển</h2>
-                <button
-                    class="flex flex-row items-center justify-center min-w-[100px] p-2 text-sm font-bold bg-[#00b14f] leading-6 capitalize duration-100 transform rounded-lg shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 hover:shadow-lg hover:-translate-y-1 text-white"
-                    @click="goToCreateJob"
-                >
-                    Thêm job
-                </button>
             </div>
-            <div v-show="!listApplicants">Chưa có đơn đăng kí</div>
+            <div v-show="!listApplicants">Bạn chưa đăng kí đơn nào</div>
             <div class="list-job overflow-auto h-[650px] p-[20px]">
                 <div
                     v-for="applicant in listApplicants"
@@ -21,7 +15,7 @@
                     <hr />
                     <div class="flex justify-between items-center">
                         <div class="text-[#6f7882]">Trạng thái: <span class="text-[#3b78dc]">Đã ứng tuyển</span></div>
-                        <span class="text-[#3b78dc]" @click="viewJob(applicant.id)">View</span>
+                        <span class="text-[#3b78dc]" @click="viewJob(applicant.job_id)">View</span>
                     </div>
                 </div>
             </div>
@@ -29,43 +23,39 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getApplicantsByCandidateId } from '@/services/applicant.service'
+import { getSingleJob } from '@/services/job.service'
+
 const router = useRouter()
-const listApplicants = ref([
-    {
-        id: 1,
-        title: 'Data Analyst',
-        company: 'FPT Software',
-        salary: '60.000 ₫',
-        address: 'Hà Nội',
-    },
-    {
-        id: 2,
-        title: 'Data Analyst',
-        company: 'FPT Software',
-        salary: '60.000 ₫',
-        address: 'Hà Nội',
-    },
-    {
-        id: 3,
-        title: 'Data Analyst',
-        company: 'FPT Software',
-        salary: '60.000 ₫',
-        address: 'Hà Nội',
-    },
-    {
-        id: 4,
-        title: 'Data Analyst',
-        company: 'FPT Software',
-        salary: '60.000 ₫',
-        address: 'Hà Nội',
-    },
-])
-const goToCreateJob = () => {
-    router.push({ name: 'createjob' })
+const listApplicants = ref([])
+const listData = ref([])
+const getListApplicants = async () => {
+    try {
+        const id = localStorage.getItem('entity_id')
+        const res = await getApplicantsByCandidateId(id)
+        listData.value = res.data.applicants.map((item) => item.job_id)
+        getJobsAll(listData.value)
+    } catch (error) {
+        console.error(error)
+    }
+}
+const getJobsAll = async (listId) => {
+    try {
+        for (const jobId of listId) {
+            const res = await getSingleJob(jobId)
+            const jobDetails = res.data
+            listApplicants.value.push(jobDetails)
+        }
+    } catch (error) {
+        console.error(error)
+    }
 }
 const viewJob = async (id) => {
     router.push(`/jobs/detail/${id}`)
 }
+onMounted(() => {
+    getListApplicants()
+})
 </script>

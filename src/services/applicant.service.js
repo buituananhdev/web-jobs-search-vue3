@@ -26,3 +26,6 @@ export const getSingleApplicant = async (id) => {
 export const addApplicant = async (newApplicant) => {
     return await axiosApiInstance.post(`/applicants`, newApplicant)
 }
+export const getApplicantsByCandidateId = async (id) => {
+    return await axiosApiInstance.get(`/applicants/candidate/${id}`)
+}

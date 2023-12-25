@@ -32,8 +32,8 @@
                     class="w-full h-full border-none border rounded p-4 rounded-lg"
                 >
                     <option value="all">Tất cả tỉnh/thành phố</option>
-                    <option v-for="(city, index) in listCity" :key="index" :value="city.name">
-                        {{ city.name }}
+                    <option v-for="(city, index) in listCity" :key="index" :value="city">
+                        {{ city }}
                     </option>
                 </select>
             </div>
@@ -59,7 +59,7 @@
             </button>
         </div>
         <div id="jobs-grid" class="grid grid-cols-1 md:grid-cols-4 gap-4" style="padding-bottom: 100px">
-            <div v-for="job in listJobs" :key="job.id" @click="showDetail">
+            <div v-for="job in listJobs" :key="job.id" @click="showDetail(job.job_id)">
                 <div class="job-card bg-white shadow-md p-4 rounded">
                     <div class="flex flex-col">
                         <span class="title text-blue-900 font-semibold text-lg mb-2">{{ job.title }}</span>
@@ -79,11 +79,75 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { getAllJobs } from '@/services/job.service'
 import { getCompanyApi } from '@/services/company.service'
+import router from '@/router'
 
-const listCity = ref([])
+const listCity = [
+    'Ho Chi Minh',
+    'Hanoi',
+    'Danang',
+    'Haiphong',
+    'An Giang',
+    'Ba Ria - Vung Tau',
+    'Bac Giang',
+    'Bac Kan',
+    'Bac Lieu',
+    'Bac Ninh',
+    'Ben Tre',
+    'Binh Dinh',
+    'Binh Duong',
+    'Binh Phuoc',
+    'Binh Thuan',
+    'Ca Mau',
+    'Can Tho',
+    'Cao Bang',
+    'Dak Lak',
+    'Dak Nong',
+    'Dien Bien',
+    'Dong Nai',
+    'Dong Thap',
+    'Gia Lai',
+    'Ha Giang',
+    'Ha Nam',
+    'Ha Tinh',
+    'Hai Duong',
+    'Hau Giang',
+    'Hoa Binh',
+    'Hung Yen',
+    'Khanh Hoa',
+    'Kien Giang',
+    'Kon Tum',
+    'Lai Chau',
+    'Lam Dong',
+    'Lang Son',
+    'Lao Cai',
+    'Long An',
+    'Nam Dinh',
+    'Nghe An',
+    'Ninh Binh',
+    'Ninh Thuan',
+    'Phu Tho',
+    'Phu Yen',
+    'Quang Binh',
+    'Quang Nam',
+    'Quang Ngai',
+    'Quang Ninh',
+    'Quang Tri',
+    'Soc Trang',
+    'Son La',
+    'Tay Ninh',
+    'Thai Binh',
+    'Thai Nguyen',
+    'Thanh Hoa',
+    'Thua Thien Hue',
+    'Tien Giang',
+    'Tra Vinh',
+    'Tuyen Quang',
+    'Vinh Long',
+    'Vinh Phuc',
+    'Yen Bai',
+]
 const filter = ref({
     location: 'all',
     salary: '0',
@@ -92,23 +156,14 @@ const filter = ref({
 })
 const listJobs = ref([])
 const listCompanies = ref([])
-const isShowDetail = ref(false)
-const showDetail = () => {
-    isShowDetail.value = true
-}
-const getListCity = async () => {
-    try {
-        const response = await axios.get('https://provinces.open-api.vn/api/')
-        listCity.value = response.data
-    } catch (err) {
-        console.error('API Error:', err)
-    }
+const showDetail = (id) => {
+    console.log('id', id)
+    router.push(`/jobs/detail/${id}`)
 }
 const getListJobs = async () => {
     try {
         const res = await getAllJobs(filter.value)
         listJobs.value = res.data.jobs
-        console.log('awwww', listCompanies.value.find((company) => company.company_id === company.company_id).name)
         listJobs.value.map(
             (company) =>
                 (company.company_name = listCompanies.value.find(
@@ -124,13 +179,12 @@ const getListCompanies = async () => {
     try {
         const res = await getCompanyApi()
         listCompanies.value = res.data.companies
-        console.log('hehehhe', listCompanies.value);
+        console.log('hehehhe', listCompanies.value)
     } catch (error) {
         console.error(error)
     }
 }
 onMounted(() => {
-    getListCity()
     getListCompanies()
     getListJobs()
 })

@@ -81,8 +81,8 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required=""
                                 >
-                                    <option v-for="(city, index) in listCity" :key="index" :value="city.name">
-                                        {{ city.name }}
+                                    <option v-for="(city, index) in listCity" :key="index" :value="city">
+                                        {{ city }}
                                     </option>
                                 </select>
                             </div>
@@ -185,17 +185,80 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useNotification } from '@kyvg/vue3-notification'
-import axios from 'axios'
 import { registerApi } from '@/services/auth.service'
 const notification = useNotification()
 const router = useRouter()
 const user = ref({
     role: 'candidate',
 })
-const listCity = ref([])
+const listCity = [
+    'Ho Chi Minh',
+    'Hanoi',
+    'Danang',
+    'Haiphong',
+    'An Giang',
+    'Ba Ria - Vung Tau',
+    'Bac Giang',
+    'Bac Kan',
+    'Bac Lieu',
+    'Bac Ninh',
+    'Ben Tre',
+    'Binh Dinh',
+    'Binh Duong',
+    'Binh Phuoc',
+    'Binh Thuan',
+    'Ca Mau',
+    'Can Tho',
+    'Cao Bang',
+    'Dak Lak',
+    'Dak Nong',
+    'Dien Bien',
+    'Dong Nai',
+    'Dong Thap',
+    'Gia Lai',
+    'Ha Giang',
+    'Ha Nam',
+    'Ha Tinh',
+    'Hai Duong',
+    'Hau Giang',
+    'Hoa Binh',
+    'Hung Yen',
+    'Khanh Hoa',
+    'Kien Giang',
+    'Kon Tum',
+    'Lai Chau',
+    'Lam Dong',
+    'Lang Son',
+    'Lao Cai',
+    'Long An',
+    'Nam Dinh',
+    'Nghe An',
+    'Ninh Binh',
+    'Ninh Thuan',
+    'Phu Tho',
+    'Phu Yen',
+    'Quang Binh',
+    'Quang Nam',
+    'Quang Ngai',
+    'Quang Ninh',
+    'Quang Tri',
+    'Soc Trang',
+    'Son La',
+    'Tay Ninh',
+    'Thai Binh',
+    'Thai Nguyen',
+    'Thanh Hoa',
+    'Thua Thien Hue',
+    'Tien Giang',
+    'Tra Vinh',
+    'Tuyen Quang',
+    'Vinh Long',
+    'Vinh Phuc',
+    'Yen Bai',
+]
 const isShowError = ref(false)
 // const confirmPassword = ref('')
 
@@ -203,21 +266,16 @@ const submit = async () => {
     try {
         await registerApi(user.value)
         router.push('/login')
+        notification.notify({
+            type: 'success',
+            title: 'Đăng kí thành công',
+        })
     } catch (error) {
         notification.notify({
             type: 'error',
-            title: 'Registration failed',
-            text: 'An error occurred during registration. Please try again.',
+            title: 'Đăng kí thất bại',
         })
         console.error(error)
-    }
-}
-const getListCity = async () => {
-    try {
-        const response = await axios.get('https://provinces.open-api.vn/api/')
-        listCity.value = response.data
-    } catch (err) {
-        console.error('API Error:', err)
     }
 }
 const isMatch = () => {
@@ -227,9 +285,6 @@ const isMatch = () => {
         isShowError.value = false
     }
 }
-onMounted(() => {
-    getListCity()
-})
 </script>
 
 <style lang="scss" scoped></style>

@@ -118,7 +118,7 @@ const handleCredentialResponse = async (res) => {
             localStorage.setItem('access_token', data.access_token)
             localStorage.setItem('refresh_token', data.refresh_token)
         })
-        await auth.initAuthStore()
+        // await auth.initAuthStore()
         router.push('/')
     } catch (error) {
         notification.notify({
@@ -134,15 +134,18 @@ const onLogin = async () => {
             const data = res.data
             console.log('data', data)
             localStorage.setItem('access_token', data.access_token)
-            localStorage.setItem('refresh_token', data.refresh_token)
+            localStorage.setItem('entity_id', res.data.entity_id)
         })
-        await auth.initAuthStore()
+        // await auth.initAuthStore()
         router.push('/list-jobs')
+        notification.notify({
+            type: 'success',
+            title: 'Đăng nhập thành công!',
+        })
     } catch (error) {
         notification.notify({
             type: 'error',
             title: 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập',
-            text: 'hihiii',
         })
         console.log(error)
     }
