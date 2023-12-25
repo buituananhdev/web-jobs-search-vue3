@@ -63,7 +63,7 @@
                 <div class="job-card bg-white shadow-md p-4 rounded">
                     <div class="flex flex-col">
                         <span class="title text-blue-900 font-semibold text-lg mb-2">{{ job.title }}</span>
-                        <span class="company text-gray-600">{{ job.company_id }}</span>
+                        <span class="company text-gray-600">{{ job.company_name }}</span>
                     </div>
                     <div class="flex items-center mt-2">
                         <span class="salary bg-gray-100 px-2 py-1 rounded text-gray-700 mr-2">{{ job.salary }}</span>
@@ -81,6 +81,8 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { getAllJobs } from '@/services/job.service'
+import { getCompanyApi } from '@/services/company.service'
+
 const listCity = ref([])
 const filter = ref({
     location: 'all',
@@ -89,6 +91,7 @@ const filter = ref({
     company_id: 0,
 })
 const listJobs = ref([])
+const listCompanies = ref([])
 const isShowDetail = ref(false)
 const showDetail = () => {
     isShowDetail.value = true
@@ -105,14 +108,30 @@ const getListJobs = async () => {
     try {
         const res = await getAllJobs(filter.value)
         listJobs.value = res.data.jobs
+        console.log('awwww', listCompanies.value.find((company) => company.company_id === company.company_id).name)
+        listJobs.value.map(
+            (company) =>
+                (company.company_name = listCompanies.value.find(
+                    (company) => company.company_id === company.company_id
+                ).name)
+        )
         console.log('listjob', listJobs.value)
     } catch (error) {
         console.error(error)
     }
 }
-
+const getListCompanies = async () => {
+    try {
+        const res = await getCompanyApi()
+        listCompanies.value = res.data.companies
+        console.log('hehehhe', listCompanies.value);
+    } catch (error) {
+        console.error(error)
+    }
+}
 onMounted(() => {
     getListCity()
+    getListCompanies()
     getListJobs()
 })
 </script>
