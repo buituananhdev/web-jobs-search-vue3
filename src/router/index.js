@@ -16,10 +16,16 @@ const routes = [
         component: () => import('@/views/auth/LoginPage.vue'),
     },
     {
-        path: '/register',
-        name: 'register',
+        path: '/register_candidate',
+        name: 'register_candidate',
         meta: { layout: 'empty' },
-        component: () => import('@/views/auth/RegisterPage.vue'),
+        component: () => import('@/views/auth/RegisterCanidate.vue'),
+    },
+    {
+        path: '/register_company',
+        name: 'register_company',
+        meta: { layout: 'empty' },
+        component: () => import('@/views/auth/RegisterCompany.vue'),
     },
     {
         path: '/list-jobs',
