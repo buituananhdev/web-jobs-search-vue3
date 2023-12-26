@@ -59,7 +59,7 @@
             </button>
         </div>
         <div v-if="listJobs" id="jobs-grid" class="grid grid-cols-1 md:grid-cols-4 gap-4" style="padding-bottom: 100px">
-            <div v-for="job in listJobs" :key="job.id" @click="showDetail(job.job_id)">
+            <div v-for="job in listJobs" :key="job.job_id" @click="showDetail(job.job_id)">
                 <div class="job-card bg-white shadow-md p-4 rounded cursor-pointer">
                     <div class="flex flex-col">
                         <span class="title text-blue-900 font-semibold text-lg mb-2">{{ job.title }}</span>
@@ -74,6 +74,7 @@
         </div>
         <div v-else class="w-full h-full flex justify-center items-center">
             <img class="w-[400px]" src="@/assets/icons/not-found.svg" />
+            <p class="text-[grey]">Không có dữ liệu</p>
         </div>
     </div>
 </template>
@@ -81,7 +82,9 @@
 import { ref, onMounted } from 'vue'
 import { getAllJobs } from '@/services/job.service'
 import { getCompanyApi } from '@/services/company.service'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const listCity = [
     'Ho Chi Minh',
@@ -158,7 +161,6 @@ const listJobs = ref([])
 const listCompanies = ref([])
 const isEmpty = ref(true)
 const showDetail = (id) => {
-    console.log('id', id)
     router.push(`/jobs/detail/${id}`)
 }
 const getListJobs = async () => {

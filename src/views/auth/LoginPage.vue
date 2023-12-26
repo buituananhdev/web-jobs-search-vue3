@@ -3,7 +3,7 @@
         <section class="bg-gray-50">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <router-link to="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
-                    <img class="w-8 h-8 mr-2" src="../assets/images/logo.png" alt="logo" />
+                    <img class="w-8 h-8 mr-2" src="@/assets/icons/icn_logo.svg" alt="logo" />
                     Python
                 </router-link>
                 <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
@@ -47,7 +47,9 @@
                             </button>
                             <p class="text-sm font-light text-gray-500">
                                 Don’t have an account yet?
-                                <router-link to="/auth/signup" class="font-medium text-primary-600 hover:underline"
+                                <router-link
+                                    to="/register_candidate"
+                                    class="font-medium text-primary-600 hover:underline"
                                     >Sign up</router-link
                                 >
                             </p>
@@ -77,6 +79,7 @@ const onLogin = async () => {
             localStorage.setItem('access_token', data.access_token)
             localStorage.setItem('entity_id', data.entity_id)
             localStorage.setItem('role', data.account.role)
+            localStorage.setItem('email', data.account.email)
         })
         await auth.initAuthStore()
         router.push('/')

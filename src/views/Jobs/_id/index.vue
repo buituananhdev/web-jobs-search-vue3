@@ -13,8 +13,12 @@
                 </button>
                 <button
                     v-else-if="role === 'candidate'"
-                    class="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm font-bold leading-6 capitalize duration-100 transform rounded-lg shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10 hover:shadow-lg hover:-translate-y-1"
-                    :class="{ 'bg-[#009634] text-white': !isApplied, 'bg-[white] text-[#009634]': isApplied}"
+                    class="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm font-bold leading-6 capitalize rounded-lg shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10"
+                    :class="{
+                        'bg-[#009634] text-white duration-100 transform hover:shadow-lg hover:-translate-y-1':
+                            !isApplied,
+                        'bg-[white] text-[#009634] shadow-lg border': isApplied,
+                    }"
                     @click="applyJob"
                 >
                     {{ isApplied ? 'Đã ứng tuyển' : 'Ứng tuyển' }}

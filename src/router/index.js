@@ -59,6 +59,11 @@ const routes = [
         // meta: { layout: 'auth', requiresAuth: true },
         component: () => import('@/views/Jobs/_id/index.vue'),
     },
+    {
+        path: '/candidates/:id',
+        // meta: { layout: 'auth', requiresAuth: true },
+        component: () => import('@/views/candidates/index.vue'),
+    },
 ]
 const router = createRouter({
     history: createWebHistory(),

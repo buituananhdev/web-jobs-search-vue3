@@ -23,7 +23,10 @@
                     <job-detail :job="job" />
                     <hr />
                     <div class="flex justify-between items-center">
-                        <span class="text-[#3b78dc]" @click="viewJob(job.id)">View</span>
+                        <div class="flex gap-5 items-center">
+                            <span class="text-[#3b78dc] cursor-pointer" @click="viewJob(job.job_id)">View Job</span>
+                            <span class="text-[#009643] cursor-pointer" @click="viewCandidate(job.job_id)">View Candidates</span>
+                        </div>
                         <div class="flex gap-4">
                             <button
                                 class="py-2 px-4 rounded-lg bg-[#009643] text-white hover:shadow-lg hover:-translate-y-1 capitalize duration-100 transform"
@@ -93,10 +96,11 @@ const deleteJobById = async (id) => {
             title: 'Xóa thành công',
         })
         listJobs.value = listJobs.value.filter((item) => item.job_id !== id)
-        if (listJobs.value) {
+        if (listJobs.value.length > 0) {
             isEmpty.value = false
+        } else {
+            isEmpty.value = true
         }
-        router.push('/list-jobs')
     } catch (error) {
         console.error(error)
         notification.notify({
@@ -110,6 +114,9 @@ const goToCreateJob = () => {
 }
 const viewJob = async (id) => {
     router.push(`/jobs/detail/${id}`)
+}
+const viewCandidate = (id) => {
+    router.push(`/candidates/${id}`)
 }
 onMounted(() => {
     getListCompanies()
