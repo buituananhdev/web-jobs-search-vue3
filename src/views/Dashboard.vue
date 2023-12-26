@@ -67,7 +67,9 @@
                         <span class="company text-gray-600">{{ job.company_name }}</span>
                     </div>
                     <div class="flex items-center mt-2">
-                        <span class="salary bg-gray-100 px-2 py-1 rounded text-gray-700 mr-2">{{ job.salary }}</span>
+                        <span class="salary bg-gray-100 px-2 py-1 rounded text-gray-700 mr-2">{{
+                            new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(job.salary)
+                        }}</span>
                         <span class="location text-gray-700">{{ job.location }}</span>
                     </div>
                 </div>
