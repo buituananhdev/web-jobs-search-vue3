@@ -19,7 +19,7 @@
                                     >Your name <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="name"
+                                    v-model="formData.name"
                                     type="text"
                                     name="name"
                                     id="name"
@@ -33,7 +33,7 @@
                                     >Your phone <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="phone"
+                                    v-model="formData.phone"
                                     type="tel"
                                     name="phone"
                                     id="phone"
@@ -47,7 +47,7 @@
                                     >Your email <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="email"
+                                    v-model="formData.email"
                                     type="email"
                                     name="email"
                                     id="email"
@@ -61,7 +61,7 @@
                                     >Password <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="password"
+                                    v-model="formData.password"
                                     type="password"
                                     name="password"
                                     id="password"
@@ -84,8 +84,6 @@
                                     required=""
                                 />
                             </div>
-                            <span v-if="isFail">Fail</span>
-                            <input type="hidden" name="formType" value="signup_candidate" />
                             <button
                                 type="submit"
                                 class="w-full text-white flex flex-row items-center justify-center w-full px-2 py-2 mb-4 text-sm font-bold bg-[#00b14f] leading-6 capitalize duration-100 transform rounded-lg shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10 hover:shadow-lg hover:-translate-y-1"
@@ -111,14 +109,18 @@ import { useNotification } from '@kyvg/vue3-notification'
 import { registerApi } from '@/services/auth.service'
 const notification = useNotification()
 const router = useRouter()
-const name = ref('');
-const phone = ref();
-const email = ref();
-const password = ref();
+const confirmPassword = ref('')
+const formData = ref({
+    name: '',
+    phone: '',
+    email: '',
+    password: '',
+    role: 'candidate'
+})
 
 const onRegister = async () => {
     try {
-        await registerApi(user.value)
+        await registerApi(formData.value)
         router.push('/login')
     } catch (error) {
         notification.notify({
