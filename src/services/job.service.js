@@ -15,15 +15,15 @@ export const deleteJob = async (id) => {
     return await axiosApiInstance.delete(`/jobs/${id}`)
 }
 export const getAllJobs = async (filter) => {
-    let url = `/jobs?key_word=${filter.key_word}&company_id=${filter.company_id}&salary=${filter.salary}&location=${filter.location}`
+    let url = '/jobs?'
     if (filter.key_word) {
-        url += `&key_word =${filter.key_word}`
+        url += `&key_word=${filter.key_word}`
     }
     if (filter.location !== 'all') {
-        url += `&location =${filter.location}`
+        url += `&location=${filter.location}`
     }
     if (filter.salary !== '0') {
-        url += `&salary =${filter.salary}`
+        url += `&salary=${filter.salary}`
     }
     if (filter.company_id > 0) {
         url += `company_id=${filter.company_id}`
