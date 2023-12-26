@@ -79,6 +79,7 @@ const onLogin = async () => {
             localStorage.setItem('access_token', data.access_token)
             localStorage.setItem('entity_id', data.entity_id)
             localStorage.setItem('role', data.account.role)
+            console.log('dhdha', data.account.email)
             localStorage.setItem('email', data.account.email)
         })
         await auth.initAuthStore()

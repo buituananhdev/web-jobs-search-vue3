@@ -167,15 +167,17 @@ const getListJobs = async () => {
     try {
         const res = await getAllJobs(filter.value)
         listJobs.value = res.data.jobs
-        if (listJobs.value) {
+
+        if (listJobs.value && listJobs.value.length > 0) {
             isEmpty.value = false
         }
-        listJobs.value.map(
-            (company) =>
-                (company.company_name = listCompanies.value.find(
-                    (company) => company.company_id === company.company_id
-                ).name)
-        )
+
+        listJobs.value.forEach((job) => {
+            const matchedCompany = listCompanies.value.find((company) => company.company_id === job.company_id)
+            if (matchedCompany) {
+                job.company_name = matchedCompany.name
+            }
+        })
     } catch (error) {
         console.error(error)
     }
