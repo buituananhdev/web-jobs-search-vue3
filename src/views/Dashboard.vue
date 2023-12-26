@@ -31,7 +31,7 @@
                     name="search-location"
                     class="w-full h-full border-none border rounded p-4 rounded-lg"
                 >
-                    <option value="all">Tất cả tỉnh/thành phố</option>
+                    <option value="all">Tất cả thành phố</option>
                     <option v-for="(city, index) in listCity" :key="index" :value="city">
                         {{ city }}
                     </option>
@@ -42,6 +42,7 @@
                     name="search-salary"
                     id="search-salary"
                     class="w-full h-full border-none border rounded p-4 rounded-lg"
+                    v-model="filter.salary"
                 >
                     <option value="0">Tất cả mức lương</option>
                     <option value="1">Dưới 10 triệu</option>
