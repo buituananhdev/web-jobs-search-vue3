@@ -73,21 +73,22 @@ const password = ref('')
 const auth = authStore()
 const onLogin = async () => {
     try {
+        let data;
         await loginApi({ email: email.value, password: password.value }).then((res) => {
-            const data = res.data
+            data = res.data
             console.log('data', data)
             localStorage.setItem('access_token', data.access_token)
             localStorage.setItem('entity_id', data.entity_id)
             localStorage.setItem('role', data.account.role)
-            console.log('dhdha', data.account.email)
+            console.log('dhdha', data.account)
             localStorage.setItem('email', data.account.email)
         })
         await auth.initAuthStore()
-        router.push('/')
-        notification.notify({
-            type: 'success',
-            title: 'Đăng nhập thành công!',
-        })
+        if(data.account.role == 'candidate') {
+                router.push('/')
+            } else {
+                router.push('/list-jobs')
+            }
     } catch (error) {
         notification.notify({
             type: 'error',
