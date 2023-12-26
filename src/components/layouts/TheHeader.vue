@@ -3,8 +3,8 @@
         <header>
             <nav class="bg-white border-gray-200 px-4 lg:px-6 py-4">
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-                    <router-link to="/index" class="flex items-center">
-                        <span class="self-center text-xl font-semibold whitespace-nowrap">CNW</span>
+                    <router-link to="/" class="flex items-center">
+                        <span class="self-center text-xl font-semibold whitespace-nowrap">Python</span>
                     </router-link>
                     <div class="flex items-center lg:order-2">
                         <div v-if="!isLogin">
@@ -177,18 +177,18 @@ const setStatusDropDown = () => {
 
 const handleWindowClick = (event) => {
     if (!event.target.matches('.dropbtn') && isDropDownVisible.value) {
-        isDropDownVisible.value = false;
+        isDropDownVisible.value = false
     }
 }
 
 onMounted(() => {
     // Add a window click event listener on mount
-    window.addEventListener('click', handleWindowClick);
+    window.addEventListener('click', handleWindowClick)
 });
 
 // Remove the window click event listener on component unmount
 onBeforeUnmount(() => {
-    window.removeEventListener('click', handleWindowClick);
+    window.removeEventListener('click', handleWindowClick)
 });
 </script>
 

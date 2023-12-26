@@ -2,7 +2,7 @@
     <div>
         <section class="bg-gray-50">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <router-link to="/index" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
+                <router-link to="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
                     <img class="w-8 h-8 mr-2" src="../assets/images/logo.png" alt="logo" />
                     Python
                 </router-link>
@@ -75,7 +75,8 @@ const onLogin = async () => {
             const data = res.data
             console.log('data', data)
             localStorage.setItem('access_token', data.access_token)
-            localStorage.setItem('entity_id', res.data.entity_id)
+            localStorage.setItem('entity_id', data.entity_id)
+            localStorage.setItem('role', data.account.role)
         })
         await auth.initAuthStore()
         router.push('/list-jobs')

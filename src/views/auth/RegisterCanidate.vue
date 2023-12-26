@@ -2,10 +2,7 @@
     <div>
         <section class="bg-gray-50">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <router-link
-                    to="/"
-                    class="flex items-center mb-6 text-2xl font-semibold text-gray-900"
-                >
+                <router-link to="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
                     Python
                 </router-link>
                 <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
@@ -19,7 +16,7 @@
                                     >Your name <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="name"
+                                    v-model="user.name"
                                     type="text"
                                     name="name"
                                     id="name"
@@ -33,7 +30,7 @@
                                     >Your phone <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="phone"
+                                    v-model="user.phone"
                                     type="tel"
                                     name="phone"
                                     id="phone"
@@ -47,7 +44,7 @@
                                     >Your email <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="email"
+                                    v-model="user.email"
                                     type="email"
                                     name="email"
                                     id="email"
@@ -61,7 +58,7 @@
                                     >Password <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="password"
+                                    v-model="user.password"
                                     type="password"
                                     name="password"
                                     id="password"
@@ -75,7 +72,7 @@
                                     >Confirm Password <span class="text-red-700">*</span></label
                                 >
                                 <input
-                                    v-model="confirmPassword"
+                                    v-model="confirmPass"
                                     type="password"
                                     name="confirm_password"
                                     id="confirm_password"
@@ -84,7 +81,7 @@
                                     required=""
                                 />
                             </div>
-                            <span v-if="isFail">Fail</span>
+                            <span v-if="isFail" class="text-[red] pt-2">Mật khẩu không khớp</span>
                             <input type="hidden" name="formType" value="signup_candidate" />
                             <button
                                 type="submit"
@@ -111,13 +108,19 @@ import { useNotification } from '@kyvg/vue3-notification'
 import { registerApi } from '@/services/auth.service'
 const notification = useNotification()
 const router = useRouter()
-const name = ref('');
-const phone = ref();
-const email = ref();
-const password = ref();
+const user = ref({
+    role: 'candidate',
+})
+const confirmPass = ref('')
+const isFail = ref(false)
 
 const onRegister = async () => {
     try {
+        if (confirmPass.value !== user.value.password) {
+            isFail.value = true
+            return
+        }
+        isFail.value = false
         await registerApi(user.value)
         router.push('/login')
     } catch (error) {

@@ -4,8 +4,11 @@
             <div class="flex items-center justify-between pb-10">
                 <h2 class="title text-2xl w-full text-[#009643] font-bold">Công việc đã ứng tuyển</h2>
             </div>
-            <div v-show="!listApplicants">Bạn chưa đăng kí đơn nào</div>
-            <div class="list-job overflow-auto h-[650px] p-[20px]">
+            <div v-if="isEmpty" class="w-full h-[70vh] flex flex-col justify-center items-center">
+                <img class="w-[400px]" src="@/assets/icons/not-found.svg" />
+                <p>Bạn chưa đăng kí đơn nào</p>
+            </div>
+            <div v-else class="list-job overflow-auto h-[650px] p-[20px]">
                 <div
                     v-for="applicant in listApplicants"
                     :key="applicant.id"
@@ -31,12 +34,18 @@ import { getSingleJob } from '@/services/job.service'
 const router = useRouter()
 const listApplicants = ref([])
 const listData = ref([])
+const isEmpty = ref(false)
 const getListApplicants = async () => {
     try {
         const id = localStorage.getItem('entity_id')
         const res = await getApplicantsByCandidateId(id)
-        listData.value = res.data.applicants.map((item) => item.job_id)
-        getJobsAll(listData.value)
+        if (res) {
+            isEmpty.value = false
+            listData.value = res.data.applicants.map((item) => item.job_id)
+            await getJobsAll(listData.value)
+        } else {
+            isEmpty.value = true
+        }
     } catch (error) {
         console.error(error)
     }
