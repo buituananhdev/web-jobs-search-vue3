@@ -50,7 +50,7 @@
                             >
                                 <div v-if="currentUser?.role === 'candidate'">
                                     <router-link
-                                        to=""
+                                        to="/"
                                         class="text-gray-700 block px-4 py-2 text-sm"
                                         role="menuitem"
                                         tabindex="-1"
