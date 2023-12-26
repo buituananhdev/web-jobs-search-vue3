@@ -79,7 +79,7 @@ const onLogin = async () => {
             localStorage.setItem('role', data.account.role)
         })
         await auth.initAuthStore()
-        router.push('/list-jobs')
+        router.push('/')
         notification.notify({
             type: 'success',
             title: 'Đăng nhập thành công!',
