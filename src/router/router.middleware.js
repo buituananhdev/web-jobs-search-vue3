@@ -1,4 +1,4 @@
-// import router from '.'
+import router from '.'
 export const authMiddleware = () => {
     // router.beforeEach((to, from, next) => {
     //     console.log('beforeEach aa', to, from)
