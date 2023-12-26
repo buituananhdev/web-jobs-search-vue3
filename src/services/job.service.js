@@ -42,3 +42,6 @@ export const addJob = async (newJob) => {
 export const getAllJobsByCompanyId = async (company_id) => {
     return await axiosApiInstance.get(`/jobs/company/${company_id}`)
 }
+export const getCandidateByJobId = async (id) => {
+    return await axiosApiInstance.get(`/jobs/${id}/candidates`)
+}

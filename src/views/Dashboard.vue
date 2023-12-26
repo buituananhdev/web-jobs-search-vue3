@@ -58,9 +58,9 @@
                 Tìm kiếm
             </button>
         </div>
-        <div id="jobs-grid" class="grid grid-cols-1 md:grid-cols-4 gap-4" style="padding-bottom: 100px">
-            <div v-for="job in listJobs" :key="job.id" @click="showDetail(job.job_id)">
-                <div class="job-card bg-white shadow-md p-4 rounded">
+        <div v-if="listJobs" id="jobs-grid" class="grid grid-cols-1 md:grid-cols-4 gap-4" style="padding-bottom: 100px">
+            <div v-for="job in listJobs" :key="job.job_id" @click="showDetail(job.job_id)">
+                <div class="job-card bg-white shadow-md p-4 rounded cursor-pointer">
                     <div class="flex flex-col">
                         <span class="title text-blue-900 font-semibold text-lg mb-2">{{ job.title }}</span>
                         <span class="company text-gray-600">{{ job.company_name }}</span>
@@ -72,8 +72,9 @@
                 </div>
             </div>
         </div>
-        <div v-show="!listJobs" class="w-full h-full flex justify-center items-center">
+        <div v-else class="w-full h-full flex justify-center items-center">
             <img class="w-[400px]" src="@/assets/icons/not-found.svg" />
+            <p class="text-[grey]">Không có dữ liệu</p>
         </div>
     </div>
 </template>
@@ -81,7 +82,9 @@
 import { ref, onMounted } from 'vue'
 import { getAllJobs } from '@/services/job.service'
 import { getCompanyApi } from '@/services/company.service'
-import router from '@/router'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const listCity = [
     'Ho Chi Minh',
@@ -156,21 +159,23 @@ const filter = ref({
 })
 const listJobs = ref([])
 const listCompanies = ref([])
+const isEmpty = ref(true)
 const showDetail = (id) => {
-    console.log('id', id)
     router.push(`/jobs/detail/${id}`)
 }
 const getListJobs = async () => {
     try {
         const res = await getAllJobs(filter.value)
         listJobs.value = res.data.jobs
+        if (listJobs.value) {
+            isEmpty.value = false
+        }
         listJobs.value.map(
             (company) =>
                 (company.company_name = listCompanies.value.find(
                     (company) => company.company_id === company.company_id
                 ).name)
         )
-        console.log('listjob', listJobs.value)
     } catch (error) {
         console.error(error)
     }
@@ -179,7 +184,6 @@ const getListCompanies = async () => {
     try {
         const res = await getCompanyApi()
         listCompanies.value = res.data.companies
-        console.log('hehehhe', listCompanies.value)
     } catch (error) {
         console.error(error)
     }
